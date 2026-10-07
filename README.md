@@ -15,9 +15,11 @@ This project builds a simple personalized movie recommender for one assigned use
 
 ## Datasets
 
-`movies.csv` contains the movie catalogue, including `movie_id`, `title`, and `genres`.
+`movies.csv` contains the movie catalogue, including `movie_id`, `title`, and `genres`. It has 36 rows and 3 columns.
 
-`ratings.csv` contains historical user ratings, including `user_id`, `movie_id`, and `rating`.
+`ratings.csv` contains historical user ratings, including `user_id`, `movie_id`, and `rating`. It has 440 rows and 3 columns.
+
+The notebook confirmed that both datasets have 0 missing values, so no missing-value cleaning was needed before building the recommender.
 
 ## Method / Approach
 
@@ -38,15 +40,43 @@ Open `DSA4060_Recommender_670178.ipynb` in Jupyter Notebook or JupyterLab and ru
 
 ## Results
 
-The five recommended movies for User 39 are:
+User 39 rated 13 movies. Four of those movies had ratings of `4.0` or higher, so they were treated as positive examples:
 
-1. The Social Network
-2. The Shawshank Redemption
-3. Arrival
-4. Crazy Rich Asians
-5. Interstellar
+| Positively Rated Movie | Genres | Rating |
+| --- | --- | ---: |
+| The Grand Budapest Hotel | Comedy, Drama | 4.5 |
+| Hidden Figures | Drama, Biography | 4.0 |
+| Knives Out | Mystery, Comedy | 4.0 |
+| Sherlock Holmes | Mystery, Action | 4.0 |
 
-These recommendations mainly reflect User 39's strongest observed preferences for Mystery, Comedy, Drama, and Biography. The recommended movies were selected because their genre profiles overlap with movies the user rated positively, such as `The Grand Budapest Hotel`, `Hidden Figures`, `Knives Out`, and `Sherlock Holmes`.
+The genre summary from the notebook shows why these genres matter:
+
+| Genre | Movies Rated by User 39 | Average Rating | Ratings of 4.0 or Higher |
+| --- | ---: | ---: | ---: |
+| Mystery | 2 | 4.00 | 2 |
+| Action | 1 | 4.00 | 1 |
+| Comedy | 3 | 3.83 | 2 |
+| Biography | 2 | 3.75 | 1 |
+| Drama | 8 | 3.44 | 2 |
+| Sports | 4 | 3.00 | 0 |
+| Horror | 1 | 2.50 | 0 |
+| Thriller | 1 | 2.50 | 0 |
+| Adventure | 1 | 2.00 | 0 |
+| Animation | 1 | 2.00 | 0 |
+
+This suggests that User 39 especially likes Mystery, Comedy, Biography, and some Drama movies. Sports movies appeared often in the user's history, but none received a rating of 4.0 or higher, so Sports was not treated as a strong positive preference.
+
+The five recommended movies are:
+
+| Rank | Recommended Movie | Genres | Similarity Score | Interpretation |
+| ---: | --- | --- | ---: | --- |
+| 1 | The Social Network | Drama, Biography | 0.375 | This shares Drama and Biography with `Hidden Figures`, which User 39 rated 4.0. |
+| 2 | The Shawshank Redemption | Drama | 0.354 | This matches the Drama side of liked movies such as `The Grand Budapest Hotel` and `Hidden Figures`. |
+| 3 | Arrival | Sci-Fi, Drama | 0.250 | This includes Drama, a genre that appears in two positively rated movies. |
+| 4 | Crazy Rich Asians | Romance, Comedy | 0.250 | This includes Comedy, which appears in two positively rated movies and has a strong average rating of 3.83. |
+| 5 | Interstellar | Sci-Fi, Drama | 0.250 | This includes Drama and is similar by genre to the user's positively rated Drama movies. |
+
+The similarity score is the average cosine similarity between each unrated movie and the movies User 39 rated `4.0` or higher. A higher score means the movie has stronger genre overlap with the user's liked movies. All five recommended movies were checked against User 39's rating history, and none had already been rated by the user.
 
 ## Limitation and Improvement
 
