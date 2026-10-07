@@ -6,8 +6,6 @@ Name: Nicholas Kinyanjui
 Student ID: 670178  
 Assigned User ID: 39
 
-The assigned user was calculated using the last two numeric digits of the Student ID:
-`78 MOD 40 = 38`, so the assigned User ID is `39`.
 
 ## Project Objective
 
